@@ -10,6 +10,23 @@
 gtfdir <- "~/Desktop/genespots/Input/dmel-all-r6.62.gtf"
 clustersdir <- "~/Desktop/genespots/Input/defs_degs.txt"
 
+# Install packages
+packages <- c("ggplot2", "KernSmooth", "dplyr", "GenomicRanges")
+for (pkg in packages) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    if (pkg != "GenomicRanges") {
+      install.packages(pkg, dependencies = TRUE)
+    }
+  }
+}
+if (!requireNamespace("GenomicRanges", quietly = TRUE)) {
+  # Install BiocManager if needed
+  if (!requireNamespace("BiocManager", quietly = TRUE)) {
+    install.packages("BiocManager")
+  }
+  BiocManager::install("GenomicRanges")
+}
+
 # Load packages
 library(GenomicRanges)
 library(ggplot2)
