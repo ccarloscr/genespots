@@ -20,6 +20,7 @@ Alternatively, to clone this repository use:
 git clone https://github.com/ccarloscr/genespots.git
 ```
 
+
 ## Configuration
 
 Multiple parameters can be customized by directly editing the script:
@@ -29,6 +30,6 @@ Multiple parameters can be customized by directly editing the script:
 - **n_perm**: number of permutations for null distribution.
 - **min_density_threshold**: fraction of max density used to filter hotspot peaks.
 - **min_genes**: minimum number GOIs overlapping a sliding window to consider a valid hotspot.
-- **filter_chromosomes**: logical flag to restruct plots to chromosomes with sig. hotspots.
+- **filter_chromosomes**: logical flag to restrict plots to chromosomes with sig. hotspots.
 
 
