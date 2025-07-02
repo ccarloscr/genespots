@@ -7,8 +7,8 @@
 ########################
 
 # Set input files
-gtfdir <- "~/Desktop/Hotspots_done/Inputs/dmel-all-r6.62.gtf"
-clustersdir <- "~/Desktop/Hotspots_done/Inputs/defs_degs.txt"
+gtfdir <- "~/Desktop/genespots/Inputs/dmel-all-r6.62.gtf"
+clustersdir <- "~/Desktop/genespots/Inputs/defs_degs.txt"
 
 # Load packages
 library(GenomicRanges)
