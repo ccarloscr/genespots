@@ -11,27 +11,21 @@ gtfdir <- "~/Desktop/genespots/Input/dmel-all-r6.62.gtf"
 clustersdir <- "~/Desktop/genespots/Input/defs_degs.txt"
 
 # Install packages
-packages <- c("ggplot2", "KernSmooth", "dplyr", "GenomicRanges")
-for (pkg in packages) {
+cran_packages <- c("ggplot2", "KernSmooth", "dplyr")
+for (pkg in cran_packages) {
   if (!requireNamespace(pkg, quietly = TRUE)) {
-    if (pkg != "GenomicRanges") {
-      install.packages(pkg, dependencies = TRUE)
-    }
+    install.packages(pkg, dependencies = TRUE)
   }
 }
 if (!requireNamespace("GenomicRanges", quietly = TRUE)) {
-  # Install BiocManager if needed
   if (!requireNamespace("BiocManager", quietly = TRUE)) {
     install.packages("BiocManager")
   }
   BiocManager::install("GenomicRanges")
 }
 
-# Load packages
-library(GenomicRanges)
-library(ggplot2)
-library(KernSmooth)
-library(dplyr)
+# Load all packages
+lapply(c(cran_packages, "GenomicRanges"), library, character.only = TRUE)
 
 # Read gtf file and transfrom into df
 gtf <- rtracklayer::import(gtfdir)
