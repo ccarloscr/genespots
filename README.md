@@ -21,6 +21,13 @@ git clone https://github.com/ccarloscr/genespots.git
 ```
 
 
+## Sample Inputs
+
+The Input folder contains sample files for both the table of GOIs and the GTF file.
+Note that the GTF file should be decompressed before use.
+
+
+
 ## Configuration
 
 Multiple parameters can be customized by directly editing the script:
