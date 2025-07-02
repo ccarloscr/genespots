@@ -298,6 +298,10 @@ ggplot() +
   )+
   theme_bw()
 
-ggsave("Hostpots_plots.pdf", plot = last_plot())
 
+########################
+# Save outputs #########
+########################
+
+ggsave("Hostpots_plots.pdf", plot = last_plot())
 write.table(significant_hotspots, file = "Sig_hotspots_table.txt", quote = FALSE, sep = "\t", row.names = FALSE, dec = )
