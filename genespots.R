@@ -201,7 +201,7 @@ get_density_curve <- function(data, chromosome, cluster_id, bw) {
 
 # Get densities for all chr + cluster combinations
 density_curves <- list()
-for (chr in unique(merged_data$seqnames)) {
+for (chr in chromosomes) {
   for (cl in clusters) {
     curve <- get_density_curve(merged_data, chr, cl, bandwidth)
     if (!is.null(curve)) density_curves[[paste(chr, cl)]] <- curve
@@ -239,7 +239,7 @@ get_null_density_curve <- function(data, chromosome, cluster_id, bw, n_perm = 10
 
 # Get null curves for each cluster and chr
 null_density_curves <- list()
-for (chr in unique(merged_data$seqnames)) {
+for (chr in chromosomes) {
   for (cl in clusters) {
     curve <- get_null_density_curve(merged_data, chr, cl, bandwidth)
     if (!is.null(curve)) null_density_curves[[paste(chr, cl)]] <- curve
