@@ -1,14 +1,45 @@
-###############################################################################
-### IDENTIFICATION OF GENOME HOTSPOTS CONTAINING GENES OF INTEREST ############
-###############################################################################
+################################################################################
+# Title: Identification of Genomic Hotspots Containing Genes of Interest
+# Author: Carlos Camilleri-Robles
+# Date: 2025-09-26
+# Version: 1.2
+#
+# Description:
+# This R script identifies genomic regions ("hotspots") enriched with genes 
+# belonging to specific expression clusters (e.g., upregulated/downregulated).
+# It uses kernel density estimation to detect hotspots, validates them via 
+# permutation testing, and visualizes significant regions across chromosomes.
+#
+# Input:
+# - GTF annotation file (e.g., dmel-all-r6.62.gtf)
+# - Clustered gene list (e.g., defs_degs.txt with gene_id, gene_symbol, cluster)
+#
+# Output:
+# - PDF plot of significant hotspots with density curves
+# - Tab-delimited table of significant hotspots with FDR < 0.05
+#
+# Dependencies:
+# - CRAN: ggplot2, KernSmooth, dplyr
+# - Bioconductor: GenomicRanges, rtracklayer
+#
+# Usage:
+# 1. Set the correct paths to input files.
+# 2. Run the script in R or RStudio.
+# 3. Outputs will be saved in the working directory.
+#
+# License:
+# MIT License
+################################################################################
+
 
 ########################
 # Set up and data prep #
 ########################
 
 # Set input files
-gtfdir <- "~/Desktop/genespots/Input/dmel-all-r6.62.gtf"
-clustersdir <- "~/Desktop/genespots/Input/defs_degs.txt"
+input_dir <- "~/Desktop/genespots/Input"
+gtfdir <- file.path(input_dir, "dmel-all-r6.62.gtf")
+clustersdir <- file.path(input_dir, "defs_degs.txt")
 
 # Install packages
 cran_packages <- c("ggplot2", "KernSmooth", "dplyr")
