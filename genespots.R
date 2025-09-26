@@ -41,6 +41,10 @@ input_dir <- "~/Desktop/genespots/Input"
 gtfdir <- file.path(input_dir, "dmel-all-r6.62.gtf")
 clustersdir <- file.path(input_dir, "defs_degs.txt")
 
+# Check existence of input files
+if (!file.exists(gtfdir)) stop("GTF file not found at: ", gtfdir)
+if (!file.exists(clustersdir)) stop("Clusters file not found at: ", clustersdir)
+
 # Install packages
 cran_packages <- c("ggplot2", "KernSmooth", "dplyr")
 for (pkg in cran_packages) {
@@ -58,8 +62,14 @@ if (!requireNamespace("GenomicRanges", quietly = TRUE)) {
 # Load all packages
 lapply(c(cran_packages, "GenomicRanges"), library, character.only = TRUE)
 
-# Read gtf file and transfrom into df
+# Import gtf file
 gtf <- rtracklayer::import(gtfdir)
+
+# Check key gtf columns
+if (!"gene_id" %in% colnames(mcols(gtf))) stop("GTF file missing 'gene_id' column.")
+if (!"type" %in% colnames(mcols(gtf))) stop("GTF file missing 'type' column.")
+
+# Transform gtf file into df
 genes_gr <- gtf[gtf$type == "gene"]
 genes_gtf <- data.frame(
   gene_id = genes_gr$gene_id,
@@ -74,6 +84,12 @@ df_clusters <- read.table(clustersdir, header = TRUE, sep = "\t", quote = "")
 df_clusters <- df_clusters[, c(1,2,3)]   # Use to filter for cols containing: gene_id, gene_symbol and clusters. Remove or change colnums if needed
 colnames(df_clusters) <- c("gene_id", "gene_symbol", "cluster")
 merged_data <- merge(df_clusters, genes_gtf, by = "gene_id", all.x = TRUE)
+
+# Check if all genes are mapped
+missing_coords <- merged_data %>% filter(is.na(start) | is.na(end))
+if (nrow(missing_coords) > 0) {
+  warning("Some genes of interest could not be mapped to genomic coordinates.")
+}
 
 # Transform chromosomes into factors
 merged_data$seqnames <- factor(merged_data$seqnames)
@@ -90,7 +106,7 @@ clusters <- unique(merged_data$cluster)
 ########################
 
 # Define bandwidth
-bandwidth = 250000    # Sets up the size of the windows
+bandwidth = 250000    # Sets up the window size
 
 # Define function to detect hotspots
 analyze_hotspots <- function(data, chromosome, cluster_id, bw) {
@@ -330,9 +346,20 @@ ggplot() +
   theme_bw()
 
 
+# Check if no hotspots were found
+if (!exists("significant_hotspots") || nrow(significant_hotspots) == 0) {
+  warning("No significant hotspots found. Output files will be empty.")
+}
+
+
 ########################
 # Save outputs #########
 ########################
 
 ggsave("Hostpots_plots.pdf", plot = last_plot())
 write.table(significant_hotspots, file = "Sig_hotspots_table.txt", quote = FALSE, sep = "\t", row.names = FALSE, dec = )
+
+cat("\nAnalysis completed successfully.\n")
+cat("Session info:\n")
+print(sessionInfo())
+
