@@ -26,8 +26,8 @@ git clone https://github.com/ccarloscr/genespots.git
 ## Sample Inputs
 
 The Input/ folder contains example files:
-- A GTF annotation file ([dmel-all-r6.62.gtf])(Input/dmel-all-r6.62.gtf)
-- A table of GOIs (defs_degs.txt)
+- A GTF annotation file [dmel-all-r6.62.gtf](Input/dmel-all-r6.62.gtf)
+- A table of GOIs [defs_degs.txt](Input/defs_degs.txt)
 Make sure the GTF file is decompressed before use.
 
 
