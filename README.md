@@ -1,21 +1,23 @@
 # genespots
 
-The R script identifies **genomic hotspots** - regions significantly enriched in genes of interest (GOIs) - using gene annotations from a GTF file and a provided list of GOIs (differentially expressed genes, gene clusters, etc). 
+genespots is an R script for identifying genomic hotspots—regions significantly enriched in genes of interest (GOIs)—using gene annotations from a GTF file and a provided list of GOIs (e.g., differentially expressed genes or gene clusters).
 
-Script workflow:
-- The script first maps GOIs to their genomic cordinates using the provided GTF file.
-- Scans each chromosome using a **sliding window (default: 250 kb)** to estimate gene density.
-- Peaks in gene density are identified as candidate hotspots.
-- Statistical significance of these hotspots is tested generating a null distribution by randomly permuting the GOI labels across all genes (default: 100 permutations).
-- Empirical p-values and FDRs (default: < 0.05) are computed for each hotspot.
-- Ouputs: table of significant hotspots and plot showing observed densities, null densities and hotspot locations.
 
+## Workflow overview
+- Maps GOIs to their genomic coordinates using the provided GTF file.
+- Scans each chromosome using a sliding window (default: 250 kb) to estimate gene density.
+- Identifies peaks in gene density as candidate hotspots.
+- Assesses statistical significance by generating a null distribution via permutation of GOI labels (default: 100 permutations).
+- Computes empirical p-values and adjusts for multiple testing using FDR (default threshold: < 0.05).
+- Outputs:
+  - A table of significant hotspots.
+  - A PDF plot showing observed densities, null densities, and hotspot locations.
 
 
 ## Installation
 
-This script can run in R or Rstudio in local.
-Alternatively, to clone this repository use:
+You can run this script locally in R or RStudio.
+To clone the repository:
 ```bash
 git clone https://github.com/ccarloscr/genespots.git
 ```
@@ -23,14 +25,16 @@ git clone https://github.com/ccarloscr/genespots.git
 
 ## Sample Inputs
 
-The Input folder contains sample files for both the table of GOIs and the GTF file.
-Note that the GTF file should be decompressed before use.
+The Input/ folder contains example files:
+- A GTF annotation file ([dmel-all-r6.62.gtf])(Input/dmel-all-r6.62.gtf)
+- A table of GOIs (defs_degs.txt)
+Make sure the GTF file is decompressed before use.
 
 
 
 ## Configuration
 
-Multiple parameters can be customized by directly editing the script:
+You can customize parameters by editing the script directly:
 - **gtfdir**: path to the GTF annotation file.
 - **clusterdir**: path to the table of genes of interest.
 - **bandwidth**: size of the sliding window.
@@ -40,3 +44,6 @@ Multiple parameters can be customized by directly editing the script:
 - **filter_chromosomes**: logical flag to restrict plots to chromosomes with sig. hotspots.
 
 
+## License
+
+This project is licensed under the MIT License.
